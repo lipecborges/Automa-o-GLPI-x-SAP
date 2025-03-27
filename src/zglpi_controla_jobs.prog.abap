@@ -25,7 +25,7 @@ GET TIME STAMP FIELD lv_timestamp.
 CONVERT TIME STAMP lv_timestamp TIME ZONE sy-zonlo
   INTO DATE DATA(lv_date) TIME lv_time.
 
-lv_seconds = lv_time+4(2). " segundos
+lv_seconds = lv_time+4(2).
 
 IF lv_seconds < lv_intervalo.
   PERFORM executa_jobs.
@@ -42,12 +42,10 @@ FORM executa_jobs.
         lv_job2 TYPE tbtcjob-jobname,
         lv_job3 TYPE tbtcjob-jobname.
 
-  " Quantas vezes executar dentro de 1 minuto
   lv_repeticoes = 60 / lv_intervalo.
 
   DO lv_repeticoes TIMES.
 
-    " Identificador numérico para nomes únicos
     lv_index = sy-index.
 
     lv_job1 = |ZGLPI_ESTORNA_OP_{ lv_index }|.
@@ -59,7 +57,7 @@ FORM executa_jobs.
       'ZGLPI_MOD_REG_INFO' lv_job2,
       'ZGLPI_CRIA_OP'      lv_job3.
 
-    " Aguarda o tempo definido
+    " Aguarda o tempo definido na variável
     WAIT UP TO lv_intervalo SECONDS.
 
   ENDDO.
